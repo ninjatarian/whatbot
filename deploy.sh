@@ -10,5 +10,5 @@ for module_name in whatbot whatbot-*/ Task-whatbot ; do
 	VER=`grep 'VERSION =' $module_name/$MOD | sed 's/^.*VERSION = .\([0-9]\+.[0-9]\+\).*/\1/'`
 	PACK="$module_name-$VER.tar.gz"
 	echo $PACK
-	tar cvf - $module_name | gzip > ../$PACK
+	tar cf - $module_name | gzip > ../$PACK
 done
