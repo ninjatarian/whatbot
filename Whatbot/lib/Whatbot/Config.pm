@@ -39,10 +39,7 @@ class Whatbot::Config {
 					$text .= $_;
 				}
 				close($fh);
-				if ( $text =~ /^<Whatbot/ ) {
-					die 'Configuration in XML. Please run bin/convert_xml_config.pl.';
-				}
-				$config = decode_json($text);
+				$config = $self->parse_config_text($text);
 			};
 			if ($@) {
 				die 'ERROR: Error in config file "' . $self->config_file . '"! Parser reported: ' . $@;
@@ -67,6 +64,25 @@ class Whatbot::Config {
 		$self->{'commands'} = ( $config->{'commands'} or {} );
 		$self->{'log_directory'} = ( $config->{'log'}->{'directory'} or '.' );
 		$self->{'log_directory'} =~ s/\/$//;
+	}
+
+	method parse_config_text( Str $config_text ) {
+		if ( $text =~ /^<Whatbot/ ) {
+			return parse_xml_config($config_text);
+		}
+		$config = decode_json($text);
+	}
+
+	method parse_json_config( Str $json_string ) {
+
+	}
+
+	method parse_property_config( Str $property_string ) {
+
+	}
+
+	method parse_xml_config( Str $xml_string ) {
+		die 'Configuration in XML. Please run bin/convert_xml_config.pl.';
 	}
 }
 

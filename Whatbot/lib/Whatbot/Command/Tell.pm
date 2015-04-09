@@ -26,12 +26,12 @@ sub request_tell : CommandRegEx('(.*)') : StopAfter {
 	return unless ( $captures and @$captures );
 	my ( $username, @captures ) = split( /\s+/, shift(@$captures) );
 	my $tell = join( ' ', @captures );
-	$tell   =~ s/|\[\[\]]//g;
-	$tell   =~ s/|\]//g;
-	$tell   =~ s/^that //;
-	$tell   =~ s/^s?he is/you are/;
-	$tell   =~ s/^s?he/you/;
-	$tell   =~ s/^you ([a-z]+?)s$/you $1/;
+	$tell =~ s/|\[\[\]]//g;
+	$tell =~ s/|\]//g;
+	$tell =~ s/^that //;
+	$tell =~ s/^s?he is/you are/;
+	$tell =~ s/^s?he/you/;
+	$tell =~ s/^you ([a-z]+?)s$/you $1/;
 	
 	# Set from
 	$tell = join( '|[', $message->from, $tell );
