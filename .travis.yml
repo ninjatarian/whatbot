@@ -9,7 +9,7 @@ perl:
 services:
   - docker
 
-install: cpanm --quiet Module::Install inc::Module::Install; for MOD in Whatbot*/; do echo $MOD; cd $MOD; PERL5LIB=../Whatbot/lib cpanm --quiet --installdeps --notest .; cd ..; done
+install: echo "Travis is using perl $TRAVIS_PERL_VERSION"; cpanm --quiet Module::Install inc::Module::Install; for MOD in Whatbot*/; do echo $MOD; cd $MOD; PERL5LIB=../Whatbot/lib cpanm --quiet --installdeps --notest .; cd ..; done
 script: "A=0; export PERL5LIB=$(find `pwd` -name lib | tr '\n' ':').; for MOD in Whatbot*/; do echo $MOD; cd $MOD; perl -Ilib Makefile.PL && make && if [ -e t ]; then prove -Ilib t; if [ $? -ne 0 ]; then A=$?; break; fi; fi; cpanm --notest .; cd ..; done; exit $A"
 
 after_success:
