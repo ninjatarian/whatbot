@@ -13,7 +13,7 @@ install: echo "Travis is using perl $TRAVIS_PERL_VERSION"; cpanm --quiet Module:
 script: "A=0; export PERL5LIB=$(find `pwd` -name lib | tr '\n' ':').; for MOD in Whatbot*/; do echo $MOD; cd $MOD; perl -Ilib Makefile.PL && make && if [ -e t ]; then prove -Ilib t; if [ $? -ne 0 ]; then A=$?; break; fi; fi; cpanm --notest .; cd ..; done; exit $A"
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "docker" ] && [ "$TRAVIS_PERL_VERSION" == "5.24" ]; then
+  - if [[ "$TRAVIS_BRANCH" == "tr-test" && "$TRAVIS_PERL_VERSION" == "5.24" ]]; then
     docker build -t nmelnick/whatbot -f Dockerfile.deploy .
     docker run -it nmelnick/whatbot bash -c 'ls -l /whatbot/'
     docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
